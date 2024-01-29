@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Django applications
+    'gyms',
+    'subscriptions',
+    'users',
 
     # 3rd parth libraries
     'rest_framework'
