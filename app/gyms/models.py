@@ -15,7 +15,7 @@ class Network(models.Model):
 
 class Gym(models.Model):
     network = models.ForeignKey('Network', null=True, on_delete=models.SET_NULL)
-    coordinates = models.OneToOneField('Location', null=True, on_delete=models.SET_NULL)
+    location = models.ForeignKey('Location', null=True, on_delete=models.SET_NULL)
     name = models.CharField(null=False, blank=False, max_length=255, default="Базовый план")
     description = models.TextField(null=True, default=None)
     plans = models.ManyToManyField(SubscriptionPlan)
