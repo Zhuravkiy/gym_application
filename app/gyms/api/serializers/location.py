@@ -5,7 +5,7 @@ from gyms.models import (
 )
 
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location

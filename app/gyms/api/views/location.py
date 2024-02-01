@@ -9,44 +9,44 @@ from rest_framework.status import (
 )
 
 from gyms.models import (
-    Network,
+    Location,
 )
-from gyms.api.serializers.network import (
-    NetworkModelSerializer,
+from gyms.api.serializers.location import (
+    LocationModelSerializer,
 )
 
 
-class NetworkCreateListView(views.APIView):
+class LocationCreateListView(views.APIView):
 
     def get(self, request, *args, **kwargs):
         """
         Returns list of all Networks
         """
-        networks = Network.objects.all()
-        serializer = NetworkModelSerializer(networks, many=True)
+        networks = Location.objects.all()
+        serializer = LocationModelSerializer(networks, many=True)
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=NetworkModelSerializer)
+    @swagger_auto_schema(request_body=LocationModelSerializer)
     def post(self, request, *args, **kwargs):
         """
         Give ability to create new networks
         """
-        serializer = NetworkModelSerializer(data=request.data)
+        serializer = LocationModelSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        network = Network.objects.create(**serializer.data)
+        location = Location.objects.create(**serializer.data)
 
-        return Response(data=NetworkModelSerializer(network).data, status=HTTP_201_CREATED)
+        return Response(data=LocationModelSerializer(location).data, status=HTTP_201_CREATED)
 
 
-class NetworkRetrieveDeleteView(views.APIView):
+class LocationRetrieveDeleteView(views.APIView):
 
     def get(self, request, *args, **kwargs):
         """
         Returns specified network
         """
-        network = get_object_or_404(Network, pk=kwargs.get('pk'))
-        serializer = NetworkModelSerializer(network)
+        network = get_object_or_404(Location, pk=kwargs.get('pk'))
+        serializer = LocationModelSerializer(network)
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
@@ -54,7 +54,7 @@ class NetworkRetrieveDeleteView(views.APIView):
         """
         Delete specified network
         """
-        network = get_object_or_404(Network, pk=kwargs.get('pk'))
+        network = get_object_or_404(Location, pk=kwargs.get('pk'))
         network.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
