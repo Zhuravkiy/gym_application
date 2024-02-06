@@ -38,6 +38,7 @@ urlpatterns = [
 
     # API
     path('admin/', admin.site.urls),
-    path('api/gym/', include('gyms.api.urls')),
-    path('api/subscription/', include('subscriptions.api.urls'))
+    path('api/gyms/', include('gyms.api.urls')),
+    path('api/subscriptions/', include('subscriptions.api.urls')),
+    path('api/users/', include('users.api.urls')),
 ]

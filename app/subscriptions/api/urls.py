@@ -8,6 +8,7 @@ from subscriptions.api.views.subscription_plan import (
     SubscriptionPlanCreateListView,
     SubscriptionPlanRetrieveDeleteView,
 )
+from subscriptions.api.views.attendance import AttendanceView
 
 
 urlpatterns = [
@@ -18,4 +19,7 @@ urlpatterns = [
     # Subscription Plans
     path('plans/', SubscriptionPlanCreateListView.as_view()),
     path('plans/<int:pk>/', SubscriptionPlanRetrieveDeleteView.as_view()),
+
+    # Attendance Tracking
+    path('attend/', AttendanceView.as_view())
 ]
