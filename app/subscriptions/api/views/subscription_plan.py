@@ -20,8 +20,11 @@ from subscriptions.models import (
     SubscriptionFeature,
 )
 
+from permissions.user_readonly import IsAdminOrReadOnly
+
 
 class SubscriptionPlanCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -49,6 +52,7 @@ class SubscriptionPlanCreateListView(views.APIView):
 
 
 class SubscriptionPlanRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """

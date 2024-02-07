@@ -4,6 +4,7 @@ from datetime import datetime
 
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
@@ -13,6 +14,7 @@ from users.models import UserFeature
 
 
 class AttendanceView(APIView):
+    permission_classes = (IsAuthenticated, )
 
     @extend_schema(request=AttendanceSerializer)
     def post(self, request):
@@ -27,8 +29,6 @@ class AttendanceView(APIView):
 
         if user_feature.available is False:
             return Response({"approved": False}, status=HTTP_200_OK)
-        print(user_feature.end_date)
-        print(type(user_feature.end_date))
         if user_feature.end_date < pytz.UTC.localize(datetime.now()) or (
             user_feature.times_used >= (user_feature.feature.amount or 0) and user_feature.feature.infinity is False
         ):

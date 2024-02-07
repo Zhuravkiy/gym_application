@@ -15,8 +15,11 @@ from gyms.api.serializers.network import (
     NetworkModelSerializer,
 )
 
+from permissions.user_readonly import IsAdminOrReadOnly
+
 
 class NetworkCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -40,6 +43,7 @@ class NetworkCreateListView(views.APIView):
 
 
 class NetworkRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """

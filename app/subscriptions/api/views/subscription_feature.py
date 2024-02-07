@@ -15,8 +15,11 @@ from subscriptions.api.serializers.subscription_feature import (
     SubscriptionFeatureModelSerializer,
 )
 
+from permissions.user_readonly import IsAdminOrReadOnly
+
 
 class SubscriptionFeatureCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -40,6 +43,7 @@ class SubscriptionFeatureCreateListView(views.APIView):
 
 
 class SubscriptionFeatureRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """

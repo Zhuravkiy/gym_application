@@ -1,7 +1,7 @@
 from rest_framework.urls import path
 
 from users.api.views.user import (
-    UserCreateListView,
+    UserCreateView,
     UserRetrieveDeleteView,
     UserChangePasswordView,
 )
@@ -13,7 +13,7 @@ from users.api.views.user_feature import (
 
 urlpatterns = [
     # Users
-    path('', UserCreateListView.as_view()),
+    path('', UserCreateView.as_view()),
     path('<int:pk>/', UserRetrieveDeleteView.as_view()),
     path('<int:pk>/password/', UserChangePasswordView.as_view()),
 

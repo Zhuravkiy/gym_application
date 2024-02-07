@@ -15,8 +15,11 @@ from gyms.api.serializers.location import (
     LocationModelSerializer,
 )
 
+from permissions.user_readonly import IsAdminOrReadOnly
+
 
 class LocationCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -40,6 +43,7 @@ class LocationCreateListView(views.APIView):
 
 
 class LocationRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """

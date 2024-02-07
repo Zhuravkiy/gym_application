@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -20,6 +21,7 @@ from users.models import UserFeature
 
 
 class UserSubscriptionFeatureListView(views.APIView):
+    permission_classes = (IsAdminUser, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -52,6 +54,7 @@ class UserSubscriptionFeatureListView(views.APIView):
 
 
 class UserSubscriptionFeatureRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
         """

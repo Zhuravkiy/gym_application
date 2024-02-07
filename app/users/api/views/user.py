@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -13,18 +14,11 @@ from users.api.serializers.user import (
     UserModelPostSerializer,
     UserModelPasswordSerialzier,
 )
+from permissions.anon_postonly import IsAuthenticatedOrPostOnly
 
 
-class UserCreateListView(views.APIView):
-
-    def get(self, request, *args, **kwargs):
-        """
-        Returns list of all Users
-        """
-        users = User.objects.all()
-        serializer = UserModelGetSerializer(users, many=True)
-
-        return Response(data=serializer.data, status=HTTP_200_OK)
+class UserCreateView(views.APIView):
+    permission_classes = (IsAuthenticatedOrPostOnly, )
 
     @extend_schema(request=UserModelPostSerializer)
     def post(self, request, *args, **kwargs):
@@ -45,6 +39,7 @@ class UserCreateListView(views.APIView):
 
 
 class UserRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAuthenticatedOrPostOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -66,6 +61,7 @@ class UserRetrieveDeleteView(views.APIView):
 
 
 class UserChangePasswordView(views.APIView):
+    permission_classes = (IsAdminUser, )
 
     @extend_schema(request=UserModelPasswordSerialzier)
     def post(self, request, *args, **kwargs):
@@ -76,4 +72,3 @@ class UserChangePasswordView(views.APIView):
         user.save()
 
         return Response(status=HTTP_204_NO_CONTENT)
-
