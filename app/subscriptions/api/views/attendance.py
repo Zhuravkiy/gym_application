@@ -13,8 +13,7 @@ from subscriptions.api.serializers.attendance import AttendanceSerializer
 from users.models import UserFeature
 
 
-class AttendanceView(APIView):
-    permission_classes = (IsAuthenticated, )
+class AttendanceCallback(APIView):
 
     @extend_schema(request=AttendanceSerializer)
     def post(self, request):

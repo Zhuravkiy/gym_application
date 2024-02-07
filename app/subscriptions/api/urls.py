@@ -8,7 +8,7 @@ from subscriptions.api.views.subscription_plan import (
     SubscriptionPlanCreateListView,
     SubscriptionPlanRetrieveDeleteView,
 )
-from subscriptions.api.views.attendance import AttendanceView
+from subscriptions.api.views.attendance import AttendanceCallback
 
 
 urlpatterns = [
@@ -21,5 +21,5 @@ urlpatterns = [
     path('plans/<int:pk>/', SubscriptionPlanRetrieveDeleteView.as_view()),
 
     # Attendance Tracking
-    path('attend/', AttendanceView.as_view())
+    path('callback/attend/', AttendanceCallback.as_view())
 ]
