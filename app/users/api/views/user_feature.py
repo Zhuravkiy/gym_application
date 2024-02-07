@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.auth.models import User
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -30,7 +30,7 @@ class UserSubscriptionFeatureListView(views.APIView):
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=UserSubscriptionFeaturePostSerializer)
+    @extend_schema(request=UserSubscriptionFeaturePostSerializer)
     def post(self, request, *args, **kwargs):
         """
         Give ability to create new UserFeature

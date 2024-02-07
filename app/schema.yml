@@ -1,0 +1,825 @@
+openapi: 3.0.3
+info:
+  title: Gym API
+  version: 1.0.0
+paths:
+  /api/gyms/:
+    get:
+      operationId: gyms_retrieve
+      description: Returns list of all Networks
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: gyms_create
+      description: Give ability to create new networks
+      tags:
+      - gyms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GymPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GymPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GymPost'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/gyms/{id}/:
+    get:
+      operationId: gyms_retrieve_2
+      description: Returns specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: gyms_destroy
+      description: Delete specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/gyms/locations/:
+    get:
+      operationId: gyms_locations_retrieve
+      description: Returns list of all Networks
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: gyms_locations_create
+      description: Give ability to create new networks
+      tags:
+      - gyms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LocationModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LocationModel'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/gyms/locations/{id}/:
+    get:
+      operationId: gyms_locations_retrieve_2
+      description: Returns specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: gyms_locations_destroy
+      description: Delete specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/gyms/networks/:
+    get:
+      operationId: gyms_networks_retrieve
+      description: Returns list of all Networks
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: gyms_networks_create
+      description: Give ability to create new networks
+      tags:
+      - gyms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NetworkModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NetworkModel'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/gyms/networks/{id}/:
+    get:
+      operationId: gyms_networks_retrieve_2
+      description: Returns specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: gyms_networks_destroy
+      description: Delete specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - gyms
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/subscriptions/attend/:
+    post:
+      operationId: subscriptions_attend_create
+      tags:
+      - subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/features/:
+    get:
+      operationId: subscriptions_features_retrieve
+      description: Returns list of all Networks
+      tags:
+      - subscriptions
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: subscriptions_features_create
+      description: Give ability to create new networks
+      tags:
+      - subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionFeatureModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscriptionFeatureModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscriptionFeatureModel'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/features/{id}/:
+    get:
+      operationId: subscriptions_features_retrieve_2
+      description: Returns specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - subscriptions
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: subscriptions_features_destroy
+      description: Delete specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - subscriptions
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/subscriptions/plans/:
+    get:
+      operationId: subscriptions_plans_retrieve
+      description: Returns list of all SubscriptionPlans
+      tags:
+      - subscriptions
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: subscriptions_plans_create
+      description: Give ability to create new subscription plans
+      tags:
+      - subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionPlanPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscriptionPlanPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscriptionPlanPost'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/plans/{id}/:
+    get:
+      operationId: subscriptions_plans_retrieve_2
+      description: Returns specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - subscriptions
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: subscriptions_plans_destroy
+      description: Delete specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - subscriptions
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/token/verify/:
+    post:
+      operationId: token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+  /api/users/:
+    get:
+      operationId: users_retrieve
+      description: Returns list of all Users
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: users_create
+      description: Give ability to create new User
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelPost'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/users/{id}/:
+    get:
+      operationId: users_retrieve_2
+      description: Returns specified User
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: users_destroy
+      description: Delete specified network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/users/{id}/password/:
+    post:
+      operationId: users_password_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelPasswordSerialzier'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelPasswordSerialzier'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelPasswordSerialzier'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/users/{id}/subscription_features/:
+    get:
+      operationId: users_subscription_features_retrieve_2
+      description: Returns specified UserFeature
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/users/subscription_features/:
+    get:
+      operationId: users_subscription_features_retrieve
+      description: Returns list of all UserFeature
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: users_subscription_features_create
+      description: Give ability to create new UserFeature
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSubscriptionFeaturePost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserSubscriptionFeaturePost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserSubscriptionFeaturePost'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Attendance:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        feature_id:
+          type: integer
+        gym_id:
+          type: integer
+      required:
+      - feature_id
+      - gym_id
+      - user_id
+    GymPost:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        network_id:
+          type: integer
+        location_id:
+          type: integer
+        plans_id:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - location_id
+      - network_id
+      - plans_id
+    LocationModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        country:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+          maxLength: 255
+        street:
+          type: string
+          maxLength: 255
+        building:
+          type: string
+          maxLength: 255
+      required:
+      - building
+      - id
+      - street
+    NetworkModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+      required:
+      - id
+      - name
+    SubscriptionFeatureModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        amount:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        infinity:
+          type: boolean
+      required:
+      - id
+      - name
+    SubscriptionPlanPost:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        price:
+          type: number
+          format: double
+        features_id:
+          type: array
+          items:
+            type: integer
+      required:
+      - features_id
+      - id
+      - name
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+      required:
+      - token
+    UserModelPasswordSerialzier:
+      type: object
+      properties:
+        password:
+          type: string
+          maxLength: 128
+      required:
+      - password
+    UserModelPost:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          maxLength: 128
+      required:
+      - password
+      - username
+    UserSubscriptionFeaturePost:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        times_used:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        available:
+          type: boolean
+        user_id:
+          type: integer
+        feature_id:
+          type: integer
+        gym_id:
+          type: integer
+      required:
+      - feature_id
+      - gym_id
+      - id
+      - user_id
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

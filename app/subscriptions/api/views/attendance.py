@@ -2,7 +2,7 @@ import pytz
 
 from datetime import datetime
 
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
@@ -14,7 +14,7 @@ from users.models import UserFeature
 
 class AttendanceView(APIView):
 
-    @swagger_auto_schema(request_body=AttendanceSerializer)
+    @extend_schema(request=AttendanceSerializer)
     def post(self, request):
         serializer = AttendanceSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

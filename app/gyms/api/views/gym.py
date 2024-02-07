@@ -1,4 +1,4 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -33,7 +33,7 @@ class GymCreateListView(views.APIView):
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=GymPostSerializer)
+    @extend_schema(request=GymPostSerializer)
     def post(self, request, *args, **kwargs):
         """
         Give ability to create new networks
