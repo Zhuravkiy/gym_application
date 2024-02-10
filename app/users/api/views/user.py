@@ -58,6 +58,8 @@ class UserUpdateRetrieveDeleteView(views.APIView):
         Delete specified network
         """
         user = get_object_or_404(User, pk=kwargs.get('pk'))
+        if user != request.user and not request.user.is_staff:
+            return Response(data={"error": "You are not allowed to perform this action"}, status=HTTP_403_FORBIDDEN)
         user.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
@@ -67,7 +69,8 @@ class UserUpdateRetrieveDeleteView(views.APIView):
         user = get_object_or_404(User, pk=kwargs.get('pk'))
         if user != request.user and not request.user.is_staff:
             return Response(data={"error": "You are not allowed to perform this action"}, status=HTTP_403_FORBIDDEN)
-        serializer = UserModelPatchSerializer(request.data)
+        serializer = UserModelPatchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         for key, value in serializer.data.items():
             if key == 'username':
                 if User.objects.filter(username=value):
