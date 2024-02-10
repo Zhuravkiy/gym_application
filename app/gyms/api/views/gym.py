@@ -1,4 +1,4 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -16,13 +16,17 @@ from gyms.models import (
 from gyms.api.serializers.gym import (
     GymGetSerializer,
     GymPostSerializer,
+    GymPatchSerializer,
 )
 from subscriptions.models import (
     SubscriptionPlan,
 )
 
+from permissions.user_readonly import IsAdminOrReadOnly
+
 
 class GymCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -33,7 +37,7 @@ class GymCreateListView(views.APIView):
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=GymPostSerializer)
+    @extend_schema(request=GymPostSerializer)
     def post(self, request, *args, **kwargs):
         """
         Give ability to create new networks
@@ -51,7 +55,8 @@ class GymCreateListView(views.APIView):
         return Response(data=GymGetSerializer(gym).data, status=HTTP_201_CREATED)
 
 
-class GymRetrieveDeleteView(views.APIView):
+class GymUpdateRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -70,3 +75,16 @@ class GymRetrieveDeleteView(views.APIView):
         gym.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=GymPatchSerializer)
+    def patch(self, request, *args, **kwargs):
+        gym = get_object_or_404(Gym, pk=kwargs.get('pk'))
+        serializer = GymPatchSerializer(request.data, partial=True)
+        for key, value in serializer.data.items():
+            if key == 'plans_id':
+                gym.plans.set(SubscriptionPlan.objects.filter(id__in=value))
+            else:
+                setattr(gym, key, value)
+        gym.save()
+        return Response(data=GymGetSerializer(gym).data, status=200)
+

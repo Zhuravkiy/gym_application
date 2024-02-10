@@ -1,4 +1,4 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -13,10 +13,14 @@ from subscriptions.models import (
 )
 from subscriptions.api.serializers.subscription_feature import (
     SubscriptionFeatureModelSerializer,
+    SubscriptionFeatureUnrequiredModelSerializer,
 )
+
+from permissions.user_readonly import IsAdminOrReadOnly
 
 
 class SubscriptionFeatureCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -27,7 +31,7 @@ class SubscriptionFeatureCreateListView(views.APIView):
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=SubscriptionFeatureModelSerializer)
+    @extend_schema(request=SubscriptionFeatureModelSerializer)
     def post(self, request, *args, **kwargs):
         """
         Give ability to create new networks
@@ -39,7 +43,8 @@ class SubscriptionFeatureCreateListView(views.APIView):
         return Response(data=SubscriptionFeatureModelSerializer(subscription_plan).data, status=HTTP_201_CREATED)
 
 
-class SubscriptionFeatureRetrieveDeleteView(views.APIView):
+class SubscriptionFeatureUpdateRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -58,3 +63,12 @@ class SubscriptionFeatureRetrieveDeleteView(views.APIView):
         subscription_feature.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=SubscriptionFeatureUnrequiredModelSerializer)
+    def patch(self, request, *args, **kwargs):
+        feature = get_object_or_404(SubscriptionFeature, pk=kwargs.get('pk'))
+        serializer = SubscriptionFeatureUnrequiredModelSerializer(request.data, partial=True)
+        for key, value in serializer.data.items():
+            setattr(feature, key, value)
+        feature.save()
+        return Response(data=SubscriptionFeatureModelSerializer(feature).data, status=200)

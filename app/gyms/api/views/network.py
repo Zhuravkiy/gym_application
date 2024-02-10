@@ -1,4 +1,4 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import views
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -13,10 +13,14 @@ from gyms.models import (
 )
 from gyms.api.serializers.network import (
     NetworkModelSerializer,
+    NetworkModelUnrequiredSerializer,
 )
+
+from permissions.user_readonly import IsAdminOrReadOnly
 
 
 class NetworkCreateListView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -27,7 +31,7 @@ class NetworkCreateListView(views.APIView):
 
         return Response(data=serializer.data, status=HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=NetworkModelSerializer)
+    @extend_schema(request=NetworkModelSerializer)
     def post(self, request, *args, **kwargs):
         """
         Give ability to create new networks
@@ -39,7 +43,8 @@ class NetworkCreateListView(views.APIView):
         return Response(data=NetworkModelSerializer(network).data, status=HTTP_201_CREATED)
 
 
-class NetworkRetrieveDeleteView(views.APIView):
+class NetworkUpdateRetrieveDeleteView(views.APIView):
+    permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         """
@@ -58,3 +63,12 @@ class NetworkRetrieveDeleteView(views.APIView):
         network.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=NetworkModelUnrequiredSerializer)
+    def patch(self, request, *args, **kwargs):
+        network = get_object_or_404(Network, pk=kwargs.get('pk'))
+        serializer = NetworkModelUnrequiredSerializer(request.data, partial=True)
+        for key, value in serializer.data.items():
+            setattr(network, key, value)
+        network.save()
+        return Response(data=NetworkModelSerializer(network).data, status=200)
