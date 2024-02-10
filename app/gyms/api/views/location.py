@@ -13,6 +13,7 @@ from gyms.models import (
 )
 from gyms.api.serializers.location import (
     LocationModelSerializer,
+    LocationModelUnrequiredSerializer,
 )
 
 from permissions.user_readonly import IsAdminOrReadOnly
@@ -42,7 +43,7 @@ class LocationCreateListView(views.APIView):
         return Response(data=LocationModelSerializer(location).data, status=HTTP_201_CREATED)
 
 
-class LocationRetrieveDeleteView(views.APIView):
+class LocationUpdateRetrieveDeleteView(views.APIView):
     permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
@@ -62,3 +63,12 @@ class LocationRetrieveDeleteView(views.APIView):
         network.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=LocationModelUnrequiredSerializer)
+    def patch(self, request, *args, **kwargs):
+        location = get_object_or_404(Location, pk=kwargs.get('pk'))
+        serializer = LocationModelUnrequiredSerializer(request.data, partial=True)
+        for key, value in serializer.data.items():
+            setattr(location, key, value)
+        location.save()
+        return Response(data=LocationModelSerializer(location).data, status=200)

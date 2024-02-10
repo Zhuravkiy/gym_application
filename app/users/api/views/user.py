@@ -8,11 +8,14 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_409_CONFLICT,
+    HTTP_403_FORBIDDEN,
 )
 from users.api.serializers.user import (
     UserModelGetSerializer,
     UserModelPostSerializer,
-    UserModelPasswordSerialzier,
+    UserModelPatchSerializer,
+    UserModelPasswordSerializer,
 )
 from permissions.anon_postonly import IsAuthenticatedOrPostOnly
 
@@ -38,7 +41,7 @@ class UserCreateView(views.APIView):
         return Response(data=UserModelGetSerializer(user).data, status=HTTP_201_CREATED)
 
 
-class UserRetrieveDeleteView(views.APIView):
+class UserUpdateRetrieveDeleteView(views.APIView):
     permission_classes = (IsAuthenticatedOrPostOnly, )
 
     def get(self, request, *args, **kwargs):
@@ -59,15 +62,31 @@ class UserRetrieveDeleteView(views.APIView):
 
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(request=UserModelPatchSerializer)
+    def patch(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs.get('pk'))
+        if user != request.user and not request.user.is_staff:
+            return Response(data={"error": "You are not allowed to perform this action"}, status=HTTP_403_FORBIDDEN)
+        serializer = UserModelPatchSerializer(request.data)
+        for key, value in serializer.data.items():
+            if key == 'username':
+                if User.objects.filter(username=value):
+                    return Response(data={"error": "This username is already taken"}, status=HTTP_409_CONFLICT)
+            setattr(user, key, value)
+        user.save()
+        return Response(UserModelGetSerializer(user).data, status=HTTP_200_OK)
+
 
 class UserChangePasswordView(views.APIView):
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAuthenticated, )
 
-    @extend_schema(request=UserModelPasswordSerialzier)
+    @extend_schema(request=UserModelPasswordSerializer)
     def post(self, request, *args, **kwargs):
-        serializer = UserModelPasswordSerialzier(data=request.data)
+        serializer = UserModelPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = get_object_or_404(User, pk=kwargs.get('pk'))
+        if user != request.user and not request.user.is_staff:
+            return Response(data={"error": "You are not allowed to perform this action"}, status=HTTP_403_FORBIDDEN)
         user.set_password(serializer.data['password'])
         user.save()
 

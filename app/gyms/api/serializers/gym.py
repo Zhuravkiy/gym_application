@@ -37,3 +37,14 @@ class GymPostSerializer(BaseGymSerializer):
 
     class Meta(BaseGymSerializer.Meta):
         fields = BaseGymSerializer.Meta.fields + ('network_id', 'location_id', 'plans_id', )
+
+
+class GymPatchSerializer(BaseGymSerializer):
+    name = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    network_id = serializers.IntegerField(required=False)
+    location_id = serializers.IntegerField(required=False)
+    plans_id = serializers.ListField(child=serializers.IntegerField(), required=False)
+
+    class Meta(BaseGymSerializer.Meta):
+        fields = BaseGymSerializer.Meta.fields + ('network_id', 'location_id', 'plans_id', )

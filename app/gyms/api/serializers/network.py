@@ -11,3 +11,11 @@ class NetworkModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Network
         fields = ['id', 'name']
+
+
+class NetworkModelUnrequiredSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False)
+
+    class Meta:
+        model = Network
+        fields = ['id', 'name']

@@ -60,7 +60,7 @@ class UserSubscriptionFeatureRetrieveDeleteView(views.APIView):
         """
         Returns specified UserFeature
         """
-        user_feature = get_object_or_404(UserFeature, user_id=kwargs.get('pk'))
-        serializer = UserSubscriptionFeatureGetSerializer(user_feature)
+        user_features = UserFeature.objects.filter(user_id=kwargs.get('pk'))
+        serializer = UserSubscriptionFeatureGetSerializer(user_features, many=True)
 
         return Response(data=serializer.data, status=HTTP_200_OK)

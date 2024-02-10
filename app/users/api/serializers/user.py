@@ -19,7 +19,18 @@ class UserModelPostSerializer(serializers.ModelSerializer):
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
 
 
-class UserModelPasswordSerialzier(serializers.ModelSerializer):
+class UserModelPatchSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+
+class UserModelPasswordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User

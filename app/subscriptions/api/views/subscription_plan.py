@@ -15,6 +15,7 @@ from subscriptions.models import (
 from subscriptions.api.serializers.subscription_plan import (
     SubscriptionPlanGetSerializer,
     SubscriptionPlanPostSerializer,
+    SubscriptionPlanPatchSerializer,
 )
 from subscriptions.models import (
     SubscriptionFeature,
@@ -51,7 +52,7 @@ class SubscriptionPlanCreateListView(views.APIView):
         return Response(data=SubscriptionPlanGetSerializer(subscription_plan).data, status=HTTP_201_CREATED)
 
 
-class SubscriptionPlanRetrieveDeleteView(views.APIView):
+class SubscriptionPlanUpdateRetrieveDeleteView(views.APIView):
     permission_classes = (IsAdminOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
@@ -71,3 +72,15 @@ class SubscriptionPlanRetrieveDeleteView(views.APIView):
         subscription_plan.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=SubscriptionPlanPatchSerializer)
+    def patch(self, request, *args, **kwargs):
+        plan = get_object_or_404(SubscriptionPlan, pk=kwargs.get('pk'))
+        serializer = SubscriptionPlanPatchSerializer(request.data, partial=True)
+        for key, value in serializer.data.items():
+            if key == 'features_id':
+                plan.features.set(SubscriptionFeature.objects.filter(id__in=value))
+            else:
+                setattr(plan, key, value)
+        plan.save()
+        return Response(data=SubscriptionPlanGetSerializer(plan).data, status=200)
